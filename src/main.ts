@@ -6,13 +6,18 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('User CRUD API')
-    .setDescription('Documentação da API de Usuários com NestJS e Prisma')
+    .setTitle('Cinema CRUD API')
+    .setDescription(
+      'API de gerenciamento de cinema com NestJS e Prisma',
+    )
     .setVersion('1.0')
     .addTag('users')
+    .addTag('cinemas')
+    .addTag('salas')
+    .addTag('pedidos')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
