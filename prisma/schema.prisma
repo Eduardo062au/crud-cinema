@@ -1,109 +1,16 @@
 generator client {
-  provider     = "prisma-client"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
+provider = "prisma-client"
+output = "../src/generated/prisma"
+moduleFormat = "cjs"
 }
-
 datasource db {
   provider = "postgresql"
 }
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt()
-}
-
-enum Genero {
-  ACAO
-  COMEDIA
-  DRAMA
-  FICCAO_CIENTIFICA
-  TERROR
-  ROMANCE
-  ANIMACAO
-  DOCUMENTARIO
-  OUTRO
-}
-
-model Cinema {
-  id       Int      @id @default(autoincrement())
-  nome     String
-  endereco String
-  salas    Sala[]
-  filmes   Filme[]
-  sessoes  Sessao[]
-}
-
-model Sala {
-  id         Int      @id @default(autoincrement())
-  numero     Int
-  capacidade Int
-  poltronas  Json
-  cinemaId   Int
-  cinema     Cinema   @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  sessoes    Sessao[]
-
-  @@unique([cinemaId, numero])
-}
-
-model Filme {
-  id                 Int      @id @default(autoincrement())
-  titulo             String
-  sinopse            String
-  classificacao      String
-  duracao            Int
-  elenco             String
-  genero             Genero
-  dataIniciaExibicao DateTime
-  dataFinalExibicao  DateTime
-  cinemaId           Int
-  cinema             Cinema   @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  sessoes            Sessao[]
-}
-
-model Sessao {
-  id              Int        @id @default(autoincrement())
-  horarioExibicao DateTime
-  filmeId         Int
-  salaId          Int
-  cinemaId        Int
-  filme           Filme      @relation(fields: [filmeId], references: [id])
-  sala            Sala       @relation(fields: [salaId], references: [id])
-  cinema          Cinema     @relation(fields: [cinemaId], references: [id], onDelete: Cascade)
-  ingressos       Ingresso[]
-}
-
-model Ingresso {
-  id           Int     @id @default(autoincrement())
-  valorInteira Float
-  valorMeia    Float
-  tipo         String  @default("inteira")
-  sessaoId     Int
-  sessao       Sessao  @relation(fields: [sessaoId], references: [id], onDelete: Cascade)
-  pedidoId     Int?
-  pedido       Pedido? @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
-}
-
-model Pedido {
-  id         Int           @id @default(autoincrement())
-  qtInteira  Int           @default(0)
-  qtMeia     Int           @default(0)
-  valorTotal Float         @default(0)
-  ingressos  Ingresso[]
-  lanches    LancheCombo[]
-}
-
-model LancheCombo {
-  id            Int    @id @default(autoincrement())
-  nome          String
-  descricao     String
-  valorUnitario Float
-  qtUnidade     Int
-  subtotal      Float
-  pedidoId      Int
-  pedido        Pedido @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+id Int @id @default(autoincrement())
+email String @unique
+name String?
+password String
+createdAt DateTime @default(now())
+updateAt DateTime @updatedAt()
 }
