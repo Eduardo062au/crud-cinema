@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Genero } from '../../../generated/prisma/client';
+import { Genero } from '../../generated/prisma/client';
 import {
   IsDateString,
   IsEnum,
